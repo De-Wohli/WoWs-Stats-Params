@@ -1,0 +1,49 @@
+﻿{
+    "output_file": "config.json",
+
+    "appkey": {
+        "type": "textbox",
+        "value": "",
+        "label": "Application ID",
+        "tooltip": "Wargaming API Application ID",
+        "group": "General"
+    },
+    "streamer": {
+        "type": "textbox",
+        "value": "Fuyu_Kitsune",
+        "label": "Streamer",
+        "tooltip": "Name of the Streamer",
+        "group": "General"
+    },
+    "defaultShip": {
+        "type": "textbox",
+        "value": "Roma",
+        "label": "Default ship",
+        "tooltip": "Name of the Ship for help message",
+        "group": "General"
+    },
+    "region": {
+        "type": "dropdown",
+        "value": "eu",
+        "items": ["eu","ru","na","asia"],
+        "label": "Player Region",
+        "tooltip": "Region of players",
+        "group": "General"
+    },
+    "language": {
+        "type": "dropdown",
+        "value": "de",
+        "items": ["de","en"],
+        "label": "Answer Language",
+        "tooltip": "Language of the Reply",
+        "group": "General"
+    },
+    "btnStart": {
+        "type": "button",
+        "label": "Open API Page",
+        "tooltip": "Opens the Wargaming API Page",
+        "function": "OpenAPIPage",
+        "wsevent": "EVEN_API_PAGE_OPEN",
+        "group": "General"
+   }
+}
