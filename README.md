@@ -10,6 +10,6 @@ Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistike
  # Config Datei
  Neue sprachen können hinzugefügt werden indem die JSON datei erweitert wird um z.B.:
  `"stats_player_nl" : "statistieken van {} --- gevechten: {} ... etc"`
- anschließend die sprache `language` auf `nl` setzen. Wichtig die datei muss als UTF-8 with BOM gespeichert werden, ich empfehle Notepad++ oder VS-Code zum bearbeiten der Datei.
+ anschließend die sprache `language` auf `nl` setzen. Wichtig die datei muss als `UTF-8 with BOM` gespeichert werden, ich empfehle Notepad++ oder VS-Code zum bearbeiten der Datei.
  # Command
  Einfach die command datei über den Commandreiter importieren und anschließend wie gewohnt editieren.
