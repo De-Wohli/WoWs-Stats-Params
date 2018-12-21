@@ -13,3 +13,4 @@ Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistike
  anschließend die sprache `language` auf `nl` setzen. Wichtig die datei muss als `UTF-8 with BOM` gespeichert werden, ich empfehle Notepad++ oder VS-Code zum bearbeiten der Datei.
  # Command
  Einfach die command datei über den Commandreiter importieren und anschließend wie gewohnt editieren.
+ Alternativ über den Command tab einen neuen command erstellen. Wichtig ist das im response `$answer` steht damit das script die antwort einfügen kann
