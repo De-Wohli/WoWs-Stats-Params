@@ -7,8 +7,6 @@ Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistike
 !stats [nutzername] [Schiffsname]
  `!stats Fuyu_Kitsune Roma` Zum anzeigen der Schiffsstatistiken für den Spieler Fuyu_Kitsune
  `!stats Fuyu_Kitsune` Zum anzeigen der allgemeinen Statistiken für den Spieler Fuyu_Kitsune
- # Update Database
- Das Datenbank kann über den Streamlabs Chatbot über die Script konfiguration aktualisiert werden.
  # Config Datei
  Neue sprachen können hinzugefügt werden indem die JSON datei erweitert wird um z.B.:
  `"stats_player_nl" : "statistieken van {} --- gevechten: {} ... etc"`
