@@ -1,5 +1,11 @@
 # Erste schritte
-Besorgt euch eine API Application ID von Wargaming und fügt diese dem script hinzu, dafür einfach die ID in das Textfeld kopieren.
+- Besorgt euch eine API Application ID von Wargaming und fügt diese dem script hinzu, dafür einfach die ID in das Textfeld kopieren.
+- Region und Sprache wählen
+- Default ship eintragen
+- Ingamename des Streamers eintragen
+- Speichern und Script neu laden
+- Einen neuen command erstellen, im response muss `$stats`
+
 # WoWs-Stats
 Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistiken. Die statistiken werden im Twitchchat vom Chatbot wiedergegeben.
  `Statistik von [spieler] für [schiff] --- Gefechte: || Durchschn. Schaden: || Winrate --- Statuspage: [link zum Offiziellen Profil]`
