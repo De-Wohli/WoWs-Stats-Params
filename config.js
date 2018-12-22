@@ -4,7 +4,7 @@
   "stats_player_en": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
   "stats_player_de": "Statistik von {player} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
   "stats_ships_en": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-  "stats_ships_de": "Statistik von player für {ship} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
+  "stats_ships_de": "Statistik von {player} für {ship} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
   "hidden_player_en": "This player refuses to participate in Statshaming",
   "hidden_player_de": "Dieser Spieler weigert sich an der Statshaming-Kultur teilzuhaben",
   "unknown_player_en": "Player unknown",
@@ -20,7 +20,7 @@
   "command": "!stats",
   "streamer": "Fuyu_Kitsune",
   "defaultShip": "Roma",
-  "language": "en",
+  "language": "de",
   "region": "eu",
   "appkey": ""
 };

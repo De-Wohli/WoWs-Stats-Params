@@ -11,7 +11,6 @@ clr.AddReference("IronPython.SQLite.dll")
 clr.AddReference("IronPython.Modules.dll")
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib")) #point at lib folder for classes / references
 import sqlite3
-
 from model import Ship, Player, Stats
 
 # ---------------------------
@@ -21,7 +20,7 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/SLOBS-chatbot-WoWs-Stats"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.0"
+Version = "1.0.1"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
@@ -63,18 +62,25 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                         return parseString.replace("$stats",settings["stats_ships_" + LANGUAGE].format(player=player.name, ship=ship.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
         else:
             return parseString.replace("$stats","An Error occured")
+    elif "$aStats" in parseString:
+        if args[0].lower() == "region":
+            settings["region"] = args[1]
+            refreshSettings()
+            return parseString.replace("$aStats","region changed to: " + args[1])
+        elif args[0].lower() == "lang":
+            settings["language"] = args[1]
+            refreshSettings()
+            return parseString.replace("$aStats","language changed to: " + args[1])
     return parseString
 
-def Init():
-    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, BASE_PLAYER_WOWSN, PLAYER_BASE, LANGUAGE, settings, path
+def Init(): 
+    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
 
     API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
     API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
     API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-    BASE_PLAYER_WOWSN = "https://wows-numbers.com/de/player/"
     PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
     path = os.path.dirname(__file__)
-    
 
     try:
 		with codecs.open(os.path.join(path, configFile), encoding='utf-8-sig', mode='r') as file:
@@ -94,10 +100,12 @@ def Init():
             "streamer": "Fuyu_Kitsune",
             "defaultShip": "Roma",
             "language": "en",
-            "region": "eu"
+            "region": "eu",
+            "showCurrentShipStats" : False
             }
         Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
 
+    settings["region"] = settings["region"].replace("na","com")
     API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
     API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
     API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
@@ -106,7 +114,31 @@ def Init():
     API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
     PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
     LANGUAGE = settings["language"]
-    settings["region"] = settings["region"].replace("na","com")
+
+def refreshSettings():
+    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
+
+    try:
+        API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
+        API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
+        API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
+        PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
+
+        settings["region"] = settings["region"].replace("na","com")
+        API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
+        API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
+        API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
+        API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey",settings["appkey"])
+        API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg",settings["region"])
+        API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
+        PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
+        LANGUAGE = settings["language"]
+        
+
+        return
+    except Exception,e :
+        Parent.Log(ScriptName,"Error refreshUrls(): "+str(e))
+        return
 
 def OpenAPIPage():
     os.system("start https://developers.wargaming.net/applications/")
