@@ -6,6 +6,16 @@
 - Speichern und Script neu laden
 - Einen neuen command erstellen, im response muss `$stats`
 
+optional:
+- Erstelle neuen command für administrative funktionen
+- berechtigungen einstellen
+- im command muss `$aStats` stehen
+
+Verfügbare Administrative befehle:
+
+`!command lang [en || de]`
+
+`!command region [eu || na || asia || ru]`
 # WoWs-Stats
 Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistiken. Die statistiken werden im Twitchchat vom Chatbot wiedergegeben.
  `Statistik von [spieler] für [schiff] --- Gefechte: || Durchschn. Schaden: || Winrate --- Statuspage: [link zum Offiziellen Profil]`
