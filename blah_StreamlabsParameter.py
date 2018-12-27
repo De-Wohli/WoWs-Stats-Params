@@ -20,10 +20,12 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/SLOBS-chatbot-WoWs-Stats"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.1"
+Version = "1.0.2"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
+regions = ["eu","ru","na","asia"]
+langs = ["de","en"]
 
 def Parse(parseString, userid, username, targetid, targetname, message):
     args = message.split(" ")
@@ -64,13 +66,19 @@ def Parse(parseString, userid, username, targetid, targetname, message):
             return parseString.replace("$stats","An Error occured")
     elif "$aStats" in parseString:
         if args[0].lower() == "region":
-            settings["region"] = args[1]
-            refreshSettings()
-            return parseString.replace("$aStats","region changed to: " + args[1])
+            if args[1].lower() in regions:
+                settings["region"] = args[1]
+                refreshSettings()
+                return parseString.replace("$aStats","region changed to: " + args[1])
+            else:
+                return parseString.replace("$aStats","Invalid Region: " + args[1])
         elif args[0].lower() == "lang":
-            settings["language"] = args[1]
-            refreshSettings()
-            return parseString.replace("$aStats","language changed to: " + args[1])
+            if args[1].lower() in langs:
+                settings["language"] = args[1]
+                refreshSettings()
+                return parseString.replace("$aStats","language changed to: " + args[1])
+            else:
+                return parseString.replace("$aStats","Invalid Language: " + args[1])
     return parseString
 
 def Init(): 
