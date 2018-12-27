@@ -30,3 +30,7 @@ Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistike
  # Command
  Einfach die command datei über den Commandreiter importieren und anschließend wie gewohnt editieren.
  Alternativ über den Command tab einen neuen command erstellen. Wichtig ist das im response `$stats` steht damit das script die antwort einfügen kann
+
+
+# Kontakt
+für fragen, anregungen oder kritik, schau einfach in meinem Discord channel vorbei https://discord.gg/RWDpTzK
