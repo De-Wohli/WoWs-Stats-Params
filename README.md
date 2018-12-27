@@ -33,4 +33,4 @@ Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistike
 
 
 # Kontakt
-für fragen, anregungen oder kritik, schau einfach in meinem Discord channel vorbei https://discord.gg/RWDpTzK
+Für fragen, anregungen oder kritik, schau einfach in meinem Discord channel vorbei https://discord.gg/RWDpTzK
