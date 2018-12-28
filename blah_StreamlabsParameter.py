@@ -20,7 +20,7 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/SLOBS-chatbot-WoWs-Stats"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.2"
+Version = "1.0.3"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
@@ -79,6 +79,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                 return parseString.replace("$aStats","language changed to: " + args[1])
             else:
                 return parseString.replace("$aStats","Invalid Language: " + args[1])
+        else:
+            return parseString.replace("$aStats","Invalid Parameters")
     return parseString
 
 def Init(): 
