@@ -20,7 +20,7 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/SLOBS-chatbot-WoWs-Stats"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.3"
+Version = "1.0.4"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
@@ -72,6 +72,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                 return parseString.replace("$aStats","region changed to: " + args[1])
             else:
                 return parseString.replace("$aStats","Invalid Region: " + args[1])
+        elif args[0].lower() == "version":
+            return parseString.replace("$aStats","Version: " + Version)
         elif args[0].lower() == "lang":
             if args[1].lower() in langs:
                 settings["language"] = args[1]
@@ -93,8 +95,8 @@ def Init():
     path = os.path.dirname(__file__)
 
     try:
-		with codecs.open(os.path.join(path, configFile), encoding='utf-8-sig', mode='r') as file:
-			settings = json.load(file)
+        with codecs.open(os.path.join(path, configFile), encoding='utf-8-sig', mode='r') as file:
+            settings = json.load(file)
     except Exception, e:
         settings = {
             "help_en": "Show Statistics: !stats Username Ship - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
@@ -146,7 +148,7 @@ def refreshSettings():
         
 
         return
-    except Exception,e :
+    except Exception, e :
         Parent.Log(ScriptName,"Error refreshUrls(): "+str(e))
         return
 
