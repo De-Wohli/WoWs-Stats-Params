@@ -20,7 +20,7 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.4"
+Version = "1.0.5"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
@@ -85,7 +85,7 @@ def Parse(parseString, userid, username, targetid, targetname, message):
             return parseString.replace("$aStats","Invalid Parameters")
     return parseString
 
-def Init(): 
+def Init():
     global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH, API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
 
     API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
@@ -128,7 +128,6 @@ def Init():
     LANGUAGE = settings["language"]
 
 def ReloadSettings(jsonContent):
-    Parent.Log(ScriptName, str(jsonContent))
     global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
 
     API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
@@ -169,6 +168,8 @@ def ReloadSettings(jsonContent):
     PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
     LANGUAGE = settings["language"]
 
+    Parent.Log(ScriptName,"Config Reloaded")
+
 
 def refreshSettings():
     global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
@@ -188,7 +189,7 @@ def refreshSettings():
         API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
         PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
         LANGUAGE = settings["language"]
-        
+
 
         return
     except Exception, e :
@@ -213,7 +214,7 @@ def getPlayer(playerName):
                 pid = content["data"][0]["account_id"]
                 newPlayer = Player(name = nick, id = pid)
                 return newPlayer
-    
+
     except Exception, e:
         Parent.Log(ScriptName,"EXCEPTION GetPlayer(): "+str(e))
         return Player()
@@ -222,7 +223,7 @@ def getPlayerLink(player):
     link = str.format("{}{}-{}",PLAYER_BASE,player.id,player.name)
     return link
 
-def db_connect(db_path=SHIPS_DB):  
+def db_connect(db_path=SHIPS_DB):
     con = sqlite3.connect(db_path)
     con.text_factory = str
     return con
