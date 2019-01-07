@@ -1,36 +1,39 @@
-# Erste schritte
-- Besorgt euch eine API Application ID von Wargaming und fügt diese dem script hinzu, dafür einfach die ID in das Textfeld kopieren.
-- Region und Sprache wählen
-- Default ship eintragen
-- Ingamename des Streamers eintragen
-- Speichern und Script neu laden
-- Einen neuen command erstellen, im response muss `$stats`
+# Setup
+- Download the Zip and import it into Streamlabs Chatbot from the Scripts tab.
 
-optional:
-- Erstelle neuen command für administrative funktionen
-- berechtigungen einstellen
-- im command muss `$aStats` stehen
+### API IDs
+- Visit the wargaming website https://developers.wargaming.net/applications/ and register an application to recieve Application ID.
+- Copy the Application ID from the website and paste it into the config in Streamlabs Chatbot.
 
-Verfügbare Administrative befehle:
+### Region and Language
+- Go to the configuration of the script inside Streamlabs Chatbot.
+- Choose a Language and the Region you want to recieve the stats from.
+- Enter a Default ship that is shown in the helptext.
+- Enter a Playername that is shown in the helptext.
 
-`!command lang [en || de]`
+### Commands
+- Go to the Commands tab inside Streamlabs Chatbot.
+- Create a new command.
+- Enter `$stats` inside the response textfield. If you want the answers to be whispered use `/w $user $stats`
+- Create another command for administrative commands.
+- Enter `$aStats` inside the response textfield.
 
-`!command region [eu || na || asia || ru]`
-# WoWs-Stats
-Script für den Streamlabs Chatbot zum anzeigen von World of Warships Statistiken. Die statistiken werden im Twitchchat vom Chatbot wiedergegeben.
- `Statistik von [spieler] für [schiff] --- Gefechte: || Durchschn. Schaden: || Winrate --- Statuspage: [link zum Offiziellen Profil]`
- # Commands
-!stats [nutzername] [Schiffsname]
- `!stats Fuyu_Kitsune Roma` Zum anzeigen der Schiffsstatistiken für den Spieler Fuyu_Kitsune
- `!stats Fuyu_Kitsune` Zum anzeigen der allgemeinen Statistiken für den Spieler Fuyu_Kitsune
- # Config Datei
- Neue sprachen können hinzugefügt werden indem die JSON datei erweitert wird um z.B.:
- `"stats_player_nl" : "statistieken van {} --- gevechten: {} ... etc"`
- anschließend die sprache `language` auf `nl` setzen. Wichtig die datei muss als `UTF-8 with BOM` gespeichert werden, ich empfehle Notepad++ oder VS-Code zum bearbeiten der Datei.
- # Command
- Einfach die command datei über den Commandreiter importieren und anschließend wie gewohnt editieren.
- Alternativ über den Command tab einen neuen command erstellen. Wichtig ist das im response `$stats` steht damit das script die antwort einfügen kann
+# General
 
+### Supported Commands
+- Administrative: `!command lang [en || de]` to set the language via command.
+- Administrative: `!command region [eu || na || asia || ru]` to set the region via command.
+- Administrative: `!command version` to show the currently running version.
+- General: `!command` to show helptext.
+- General: `!command help` to show helptext.
+- General `!command [player]` to show player stats.
+- General: `!command [player] [ship]` to show players stats for specified ship.
+
+### Supported Lanugages
+- German
+- English
+
+If you'd like to add a translation, please contact me on the discord server https://discord.gg/RWDpTzK to recieve instructions for translation works.
 
 # Kontakt
-Für fragen, anregungen oder kritik, schau einfach in meinem Discord channel vorbei. https://discord.gg/RWDpTzK
+For requests, support and ideas please visit https://discord.gg/RWDpTzK
