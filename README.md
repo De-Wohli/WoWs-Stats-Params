@@ -33,7 +33,7 @@
 - German
 - English
 
-If you'd like to add a translation, please contact me on the discord server https://discord.gg/RWDpTzK to recieve instructions for translation works.
+If you'd like to add a translation, please contact me on the discord server https://discord.gg/feMnm5B to recieve instructions for translation works.
 
 # Kontakt
-For requests, support and ideas please visit https://discord.gg/RWDpTzK
+For requests, support and ideas please visit https://discord.gg/feMnm5B
