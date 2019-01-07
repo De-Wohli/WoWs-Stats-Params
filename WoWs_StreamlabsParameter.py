@@ -17,7 +17,7 @@ from model import Ship, Player, Stats
 #   [Required] Script Information
 # ---------------------------
 ScriptName = "WoWs Stats Para"
-Website = "https://github.com/De-Wohli/SLOBS-chatbot-WoWs-Stats"
+Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
 Version = "1.0.4"
@@ -86,7 +86,7 @@ def Parse(parseString, userid, username, targetid, targetname, message):
     return parseString
 
 def Init(): 
-    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
+    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH, API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
 
     API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
     API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
@@ -127,6 +127,49 @@ def Init():
     PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
     LANGUAGE = settings["language"]
 
+def ReloadSettings(jsonContent):
+    Parent.Log(ScriptName, str(jsonContent))
+    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
+
+    API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
+    API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
+    API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
+    PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
+    path = os.path.dirname(__file__)
+
+    try:
+        settings = json.loads(jsonContent)
+    except Exception, e:
+        settings = {
+            "help_en": "Show Statistics: !stats Username Ship - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
+            "stats_player_en": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+            "stats_ships_en": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+            "hidden_player_en": "This player refuses to participate in Statshaming",
+            "unknown_player_en": "Player unknown",
+            "unknown_ship_en": "Ship unknown",
+            "unknown_stats_en": "No statistics available",
+            "missing_permission_en": "No Permission",
+            "cooldown_message_en": "Command is still on cooldown",
+            "command": "!stats",
+            "streamer": "Fuyu_Kitsune",
+            "defaultShip": "Roma",
+            "language": "en",
+            "region": "eu",
+            "showCurrentShipStats" : False
+            }
+        Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
+
+    settings["region"] = settings["region"].replace("na","com")
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey",settings["appkey"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg",settings["region"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
+    PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
+    LANGUAGE = settings["language"]
+
+
 def refreshSettings():
     global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
 
@@ -149,7 +192,7 @@ def refreshSettings():
 
         return
     except Exception, e :
-        Parent.Log(ScriptName,"Error refreshUrls(): "+str(e))
+        Parent.Log(ScriptName,"Error refreshSettings(): "+str(e))
         return
 
 def OpenAPIPage():
