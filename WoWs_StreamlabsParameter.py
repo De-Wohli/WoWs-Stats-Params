@@ -20,7 +20,7 @@ ScriptName = "WoWs Stats Para"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.5"
+Version = "1.0.6"
 
 configFile = "config.json"
 SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
@@ -42,6 +42,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                 stats = getPlayerStats(player)
                 if stats.hidden:
                     return parseString.replace("$stats",settings["hidden_player_" + LANGUAGE])
+                elif stats.damage == 0:
+                    return parseString.replace("$stats",settings["unknown_stats_" + LANGUAGE])
                 else:
                     url = getPlayerLink(player)
                     return parseString.replace("$stats",settings["stats_player_" + LANGUAGE].format(player=player.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
@@ -56,6 +58,8 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                     return parseString.replace("$stats",settings["hidden_player_" + LANGUAGE])
                 elif ship.id == 0:
                     return parseString.replace("$stats",settings["unknown_ship_" + LANGUAGE])
+                elif stats.damage == 0:
+                    return parseString.replace("$stats",settings["unknown_stats_" + LANGUAGE])
                 else:
                     url = getPlayerLink(player)
                     if stats.battles == 0:
@@ -117,14 +121,14 @@ def Init():
             }
         Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
 
-    settings["region"] = settings["region"].replace("na","com")
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey",settings["appkey"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg",settings["region"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
-    PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
+    settings["region"] = settings["region"].replace("na", "com")
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg", settings["region"])
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey", settings["appkey"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg", settings["region"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey", settings["appkey"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg", settings["region"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey", settings["appkey"])
+    PLAYER_BASE = PLAYER_BASE.replace("$reg", settings["region"])
     LANGUAGE = settings["language"]
 
 def ReloadSettings(jsonContent):
@@ -158,14 +162,14 @@ def ReloadSettings(jsonContent):
             }
         Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
 
-    settings["region"] = settings["region"].replace("na","com")
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey",settings["appkey"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg",settings["region"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
-    PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
+    settings["region"] = settings["region"].replace("na", "com")
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg", settings["region"])
+    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey", settings["appkey"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg", settings["region"])
+    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey", settings["appkey"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg", settings["region"])
+    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey", settings["appkey"])
+    PLAYER_BASE = PLAYER_BASE.replace("$reg", settings["region"])
     LANGUAGE = settings["language"]
 
     Parent.Log(ScriptName,"Config Reloaded")
@@ -208,6 +212,8 @@ def getPlayer(playerName):
         if(content["status"] == 200):
             content = json.loads(content["response"])
             if content["meta"]["count"] == 0:
+                return Player()
+            if content ["data"][0]["nickname"].lower() != playerName.lower():
                 return Player()
             else:
                 nick = content["data"][0]["nickname"]
