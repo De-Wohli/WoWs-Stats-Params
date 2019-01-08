@@ -12,7 +12,7 @@ clr.AddReference("IronPython.Modules.dll")
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib")) #point at lib folder for classes / references
 import sqlite3
 from model import Ship, Player, Stats
-from enum import Enum
+
 
 # ---------------------------
 #   [Required] Script Information
@@ -56,10 +56,10 @@ class API(object):
             with codecs.open(apifile, encoding="utf-8-sig", mode="r") as f:
                 self.__dict__ = json.load(f, encoding="utf-8-sig")
         except:
-                self.API_PLAYER_SEARCH = "https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}",
-                self.API_PLAYER_STATS = "https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
-                self.API_PLAYER_SHIP = "https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-                self.PLAYER_BASE = "https://worldofwarships.{reg}/community/accounts/"
+                self.PLAYER_SEARCH = "https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}",
+                self.PLAYER_STATS = "https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
+                self.PLAYER_SHIP = "https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
+                self.PLAYER_LINK = "https://worldofwarships.{reg}/community/accounts/"
 
 class Texts(object):
     def __init__(self,textfile=None,language="en"):
@@ -82,68 +82,6 @@ class Texts(object):
         self.__dict__ = tmp[language]
 
 
-def Parse(parseString, userid, username, targetid, targetname, message):
-    args = message.split(" ")
-    if "$stats" in parseString:
-        if settings["appkey"] == "":
-            return parseString.replace("$stats","Please enter a Wargaming ApplicationID key to run this Script")
-        elif message == "" or args[0].lower() == "help":
-            return parseString.replace("$stats",settings["help_" + LANGUAGE].format(player=settings["streamer"],ship=settings["defaultShip"]))
-        elif len(args) == 1 and args[0].lower() != "help":
-            player = getPlayer(args[0])
-            if player.id == 0:
-                return parseString.replace("$stats",settings["unknown_player_" + LANGUAGE])
-            else:
-                stats = getPlayerStats(player)
-                if stats.hidden:
-                    return parseString.replace("$stats",settings["hidden_player_" + LANGUAGE])
-                elif stats.damage == 0:
-                    return parseString.replace("$stats",settings["unknown_stats_" + LANGUAGE])
-                else:
-                    url = getPlayerLink(player)
-                    return parseString.replace("$stats",settings["stats_player_" + LANGUAGE].format(player=player.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
-        elif len(args) >= 2 and args[0].lower() != "help":
-            player = getPlayer(args[0])
-            if player.id == 0:
-                return parseString.replace("$stats",settings["unknown_player_" + LANGUAGE])
-            else:
-                ship = getShip("_".join(args[1:]))
-                stats = getShipStats(player,ship)
-                if stats.hidden:
-                    return parseString.replace("$stats",settings["hidden_player_" + LANGUAGE])
-                elif ship.id == 0:
-                    return parseString.replace("$stats",settings["unknown_ship_" + LANGUAGE])
-                elif stats.damage == 0:
-                    return parseString.replace("$stats",settings["unknown_stats_" + LANGUAGE])
-                else:
-                    url = getPlayerLink(player)
-                    if stats.battles == 0:
-                        return parseString.replace("$stats",settings["unknown_stats_" + LANGUAGE])
-                    else:
-                        return parseString.replace("$stats",settings["stats_ships_" + LANGUAGE].format(player=player.name, ship=ship.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
-        else:
-            return parseString.replace("$stats","An Error occured")
-    elif "$aStats" in parseString:
-        if args[0].lower() == "region":
-            if args[1].lower() in regions:
-                settings["region"] = args[1]
-                refreshSettings()
-                return parseString.replace("$aStats","region changed to: " + args[1])
-            else:
-                return parseString.replace("$aStats","Invalid Region: " + args[1])
-        elif args[0].lower() == "version":
-            return parseString.replace("$aStats","Version: " + Version)
-        elif args[0].lower() == "lang":
-            if args[1].lower() in langs:
-                settings["language"] = args[1]
-                refreshSettings()
-                return parseString.replace("$aStats","language changed to: " + args[1])
-            else:
-                return parseString.replace("$aStats","Invalid Language: " + args[1])
-        else:
-            return parseString.replace("$aStats","Invalid Parameters")
-    return parseString
-
 def Init():
     global settings
     settings = Settings(settingsFile)
@@ -154,37 +92,85 @@ def Init():
 
 def ReloadSettings(jsonContent):
     global settings
-    settings = Settings(jsonContent)
+    settings.reload(jsonContent)
     global api
     api = API(apiFile)
     global texts
     texts = Texts(textFile,settings.language)
+    Parent.Log(ScriptName,"Config Reloaded")
 
-
-def refreshSettings():
-    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
-
-    try:
-        API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
-        API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
-        API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-        PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
-
-        settings["region"] = settings["region"].replace("na","com")
-        API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg",settings["region"])
-        API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey",settings["appkey"])
-        API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg",settings["region"])
-        API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey",settings["appkey"])
-        API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg",settings["region"])
-        API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey",settings["appkey"])
-        PLAYER_BASE = PLAYER_BASE.replace("$reg",settings["region"])
-        LANGUAGE = settings["language"]
-
-
-        return
-    except Exception, e :
-        Parent.Log(ScriptName,"Error refreshSettings(): "+str(e))
-        return
+def Parse(parseString, userid, username, targetid, targetname, message):
+    args = message.split(" ")
+    if "$stats" in parseString:
+        if settings.appkey == "":
+            return parseString.replace("$stats","Please enter a Wargaming ApplicationID key to run this Script")
+        elif message == "" or args[0].lower() == "help":
+            retStr = str(texts.help)
+            return parseString.replace("$stats",retStr.format(player=settings.streamer,ship=settings.defaultShip))
+        elif len(args) == 1 and args[0].lower() != "help":
+            player = getPlayer(args[0])
+            if player.id == 0:
+                retStr = str(texts.unknown_player)
+                return parseString.replace("$stats",retStr)
+            else:
+                stats = getPlayerStats(player)
+                if stats.hidden:
+                    retStr = str(texts.hidden_player)
+                    return parseString.replace("$stats",retStr)
+                elif stats.damage == 0:
+                    retStr = str(texts.unknown_stats)
+                    return parseString.replace("$stats",retStr)
+                else:
+                    url = getPlayerLink(player)
+                    retStr = str(texts.stats_player)
+                    return parseString.replace("$stats",retStr.format(player=player.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
+        elif len(args) >= 2 and args[0].lower() != "help":
+            player = getPlayer(args[0])
+            if player.id == 0:
+                retStr = str(texts.unknown_player)
+                return parseString.replace("$stats",retStr)
+            else:
+                ship = getShip("_".join(args[1:]))
+                stats = getShipStats(player,ship)
+                if stats.hidden:
+                    retStr = str(texts.hidden_player)
+                    return parseString.replace("$stats",retStr)
+                elif ship.id == 0:
+                    retStr = str(texts.unknown_ship)
+                    return parseString.replace("$stats",retStr)
+                elif stats.damage == 0:
+                    retStr = str(texts.unknown_stats)
+                    return parseString.replace("$stats",retStr)
+                else:
+                    url = getPlayerLink(player)
+                    if stats.battles == 0:
+                        retStr = str(texts.unknown_stats)
+                        return parseString.replace("$stats",retStr)
+                    else:
+                        retStr = str(texts.stats_ships)
+                        return parseString.replace("$stats",retStr.format(player=player.name, ship=ship.name, battles=stats.battles, avgDmg=stats.avgDamage,winrate=stats.avgWins, wgUrl=url))
+        else:
+            return parseString.replace("$stats","An Error occured")
+    elif "$aStats" in parseString:
+        if args[0].lower() == "region":
+            if args[1].lower() in regions:
+                settings.region = args[1]
+                return parseString.replace("$aStats","region changed to: " + args[1])
+            else:
+                return parseString.replace("$aStats","Invalid Region: " + args[1])
+        elif args[0].lower() == "version":
+            return parseString.replace("$aStats","Version: " + Version)
+        elif args[0].lower() == "lang":
+            if args[1].lower() in langs:
+                settings.language = args[1]
+                global texts
+                texts = Texts(textFile,settings.language)
+                return parseString.replace("$aStats","language changed to: " + args[1])
+            else:
+                return parseString.replace("$aStats","Invalid Language: " + args[1])
+        else:
+            return parseString.replace("$aStats","Invalid Parameters")
+    return parseString
 
 def OpenAPIPage():
     os.system("start https://developers.wargaming.net/applications/")
@@ -192,7 +178,8 @@ def OpenAPIPage():
 
 def getPlayer(playerName):
     try:
-        url = API_PLAYER_SEARCH + "&search=" + playerName
+        url = api.PLAYER_SEARCH
+        url = str(url).format(reg=settings.region,appkey=settings.appkey,playerName=playerName)
         response = Parent.GetRequest(url,{})
         content = json.loads(response)
         if(content["status"] == 200):
@@ -212,17 +199,18 @@ def getPlayer(playerName):
         return Player()
 
 def getPlayerLink(player):
-    link = str.format("{}{}-{}",PLAYER_BASE,player.id,player.name)
+    link = str.format("{}{}-{}",str(api.PLAYER_LINK).format(reg=settings.region),player.id,player.name)
     return link
 
-def db_connect(db_path=SHIPS_DB):
+def db_connect(db_path=shipsDb):
     con = sqlite3.connect(db_path)
     con.text_factory = str
     return con
 
 def getPlayerStats(player):
     try:
-        url = API_PLAYER_STATS + "&account_id=" + str(player.id)
+        url = api.PLAYER_STATS
+        url = str(url).format(reg=settings.region,appkey=settings.appkey,accountID=player.id)
         response = Parent.GetRequest(url,{})
         content = json.loads(response)
         if(content["status"] == 200):
@@ -259,7 +247,7 @@ def getShip(name):
 
 def getShipStats(p,s):
     try:
-        url= API_PLAYER_SHIP + "&account_id=" + str(p.id) + "&ship_id=" + str(s.id)
+        url= str(api.PLAYER_SHIP).format(reg=settings.region,appkey=settings.appkey,accountID=p.id,shipID=s.id)
         response = Parent.GetRequest(url,{})
         content = json.loads(response)
         if(content["status"] == 200):
