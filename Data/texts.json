@@ -1,0 +1,20 @@
+{
+    "en": {
+      "help": "Show Statistics: !stats [Username] [Ship] - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
+      "stats_player": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+      "stats_ships": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+      "hidden_player": "This player refuses to participate in Statshaming",
+      "unknown_player": "Player unknown",
+      "unknown_ship": "Ship unknown",
+      "unknown_stats": "No statistics available"
+    },
+    "de": {
+      "help": "Stats anzeigen: !stats [Spielername] [Schiffsname] - z.B.: !stats {player} {ship} - Hinweis: Schiffsname ist optional",
+      "stats_player": "Statistik von {player} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
+      "stats_ships": "Statistik von {player} für {ship} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
+      "hidden_player": "Dieser Spieler weigert sich an der Statshaming-Kultur teilzuhaben",
+      "unknown_player": "Spieler unbekannt",
+      "unknown_ship": "Schiff unbekannt",
+      "unknown_stats": "Keine Statistiken bekannt"
+    }
+}

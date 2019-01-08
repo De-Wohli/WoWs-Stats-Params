@@ -1,5 +1,5 @@
 ﻿{
-    "output_file": "config.json",
+    "output_file": "data/settings.json",
 
     "appkey": {
         "type": "textbox",

@@ -16,7 +16,7 @@ class ship:
 nation = ["ussr","japan","germany","france","usa","pan_asia","italy","uk","commonwealth","poland"]
 shipTpe = ["AirCarrier","Battleship","Cruiser","Destroyer"]
 #   Vars
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), './Data/ships_db.sqlite3')
 path = os.path.dirname(__file__)
 configFile = "config.json"
 

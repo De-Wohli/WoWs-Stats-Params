@@ -1,2 +1,4 @@
 .vscode
 wgapi.txt
+*.zip
+UpdateDB.py

@@ -12,6 +12,7 @@ clr.AddReference("IronPython.Modules.dll")
 sys.path.append(os.path.join(os.path.dirname(__file__), "lib")) #point at lib folder for classes / references
 import sqlite3
 from model import Ship, Player, Stats
+from enum import Enum
 
 # ---------------------------
 #   [Required] Script Information
@@ -22,10 +23,64 @@ Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
 Version = "1.0.6"
 
-configFile = "config.json"
-SHIPS_DB = os.path.join(os.path.dirname(__file__), './Databases/ships_db.sqlite3')
+
+dataFolder = os.path.join(os.path.dirname(__file__), "data/")
+settingsFile = os.path.join(dataFolder, "settings.json")
+apiFile = os.path.join(dataFolder, "api.json")
+textFile = os.path.join(dataFolder, "texts.json")
+shipsDb= os.path.join(dataFolder,"ships_db.sqlite3")
 regions = ["eu","ru","na","asia"]
 langs = ["de","en"]
+
+class Settings(object):
+    def __init__(self, settingsfile=None):
+        """ Load saved settings from file if available otherwise set default values. """
+        try:
+            with codecs.open(settingsfile, encoding="utf-8-sig", mode="r") as f:
+                self.__dict__ = json.load(f, encoding="utf-8-sig")
+        except:
+                self.streamer = "Fuyu_Kitsune"
+                self.defaultShip = "Roma"
+                self.language = "de"
+                self.region = "eu"
+                self.appkey = ""
+    
+    def reload(self, jsondata):
+        """ Reload settings from AnkhBot user interface by given json data. """
+        self.__dict__ = json.loads(jsondata, encoding="utf-8")
+
+
+class API(object):
+    def __init__(self,apifile=None):
+        try:
+            with codecs.open(apifile, encoding="utf-8-sig", mode="r") as f:
+                self.__dict__ = json.load(f, encoding="utf-8-sig")
+        except:
+                self.API_PLAYER_SEARCH = "https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}",
+                self.API_PLAYER_STATS = "https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
+                self.API_PLAYER_SHIP = "https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
+                self.PLAYER_BASE = "https://worldofwarships.{reg}/community/accounts/"
+
+class Texts(object):
+    def __init__(self,textfile=None,language="en"):
+        try:
+            with codecs.open(textfile, encoding="utf-8-sig", mode="r") as f:
+                tmp = json.load(f, encoding="utf-8-sig")
+        except:
+            tmp =   {
+                "en":
+                {
+                    "help": "Show Statistics: !stats [Username] [Ship] - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
+                    "stats_player": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+                    "stats_ships": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+                    "hidden_player": "This player refuses to participate in Statshaming",
+                    "unknown_player": "Player unknown",
+                    "unknown_ship": "Ship unknown",
+                    "unknown_stats": "No statistics available"
+                }
+            }
+        self.__dict__ = tmp[language]
+
 
 def Parse(parseString, userid, username, targetid, targetname, message):
     args = message.split(" ")
@@ -90,89 +145,20 @@ def Parse(parseString, userid, username, targetid, targetname, message):
     return parseString
 
 def Init():
-    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH, API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
-
-    API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
-    API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
-    API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-    PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
-    path = os.path.dirname(__file__)
-
-    try:
-        with codecs.open(os.path.join(path, configFile), encoding='utf-8-sig', mode='r') as file:
-            settings = json.load(file)
-    except Exception, e:
-        settings = {
-            "help_en": "Show Statistics: !stats Username Ship - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
-            "stats_player_en": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-            "stats_ships_en": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-            "hidden_player_en": "This player refuses to participate in Statshaming",
-            "unknown_player_en": "Player unknown",
-            "unknown_ship_en": "Ship unknown",
-            "unknown_stats_en": "No statistics available",
-            "missing_permission_en": "No Permission",
-            "cooldown_message_en": "Command is still on cooldown",
-            "command": "!stats",
-            "streamer": "Fuyu_Kitsune",
-            "defaultShip": "Roma",
-            "language": "en",
-            "region": "eu",
-            "showCurrentShipStats" : False
-            }
-        Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
-
-    settings["region"] = settings["region"].replace("na", "com")
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg", settings["region"])
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey", settings["appkey"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg", settings["region"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey", settings["appkey"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg", settings["region"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey", settings["appkey"])
-    PLAYER_BASE = PLAYER_BASE.replace("$reg", settings["region"])
-    LANGUAGE = settings["language"]
+    global settings
+    settings = Settings(settingsFile)
+    global api
+    api = API(apiFile)
+    global texts
+    texts = Texts(textFile,settings.language)
 
 def ReloadSettings(jsonContent):
-    global settings, API_PLAYER_SHIP, API_PLAYER_SEARCH,API_PLAYER_STATS, PLAYER_BASE, LANGUAGE, path
-
-    API_PLAYER_SEARCH="https://api.worldofwarships.$reg/wows/account/list/?application_id=$appkey"
-    API_PLAYER_STATS="https://api.worldofwarships.$reg/wows/account/info/?application_id=$appkey&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
-    API_PLAYER_SHIP="https://api.worldofwarships.$reg/wows/ships/stats/?application_id=$appkey&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-    PLAYER_BASE="https://worldofwarships.$reg/community/accounts/"
-    path = os.path.dirname(__file__)
-
-    try:
-        settings = json.loads(jsonContent)
-    except Exception, e:
-        settings = {
-            "help_en": "Show Statistics: !stats Username Ship - z.B.: !stats {player} {ship} - Hint: Shipname is optional",
-            "stats_player_en": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-            "stats_ships_en": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-            "hidden_player_en": "This player refuses to participate in Statshaming",
-            "unknown_player_en": "Player unknown",
-            "unknown_ship_en": "Ship unknown",
-            "unknown_stats_en": "No statistics available",
-            "missing_permission_en": "No Permission",
-            "cooldown_message_en": "Command is still on cooldown",
-            "command": "!stats",
-            "streamer": "Fuyu_Kitsune",
-            "defaultShip": "Roma",
-            "language": "en",
-            "region": "eu",
-            "showCurrentShipStats" : False
-            }
-        Parent.Log(ScriptName,"Error LoadConfig:" + str(e))
-
-    settings["region"] = settings["region"].replace("na", "com")
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$reg", settings["region"])
-    API_PLAYER_SEARCH = API_PLAYER_SEARCH.replace("$appkey", settings["appkey"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$reg", settings["region"])
-    API_PLAYER_STATS = API_PLAYER_STATS.replace("$appkey", settings["appkey"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$reg", settings["region"])
-    API_PLAYER_SHIP = API_PLAYER_SHIP.replace("$appkey", settings["appkey"])
-    PLAYER_BASE = PLAYER_BASE.replace("$reg", settings["region"])
-    LANGUAGE = settings["language"]
-
-    Parent.Log(ScriptName,"Config Reloaded")
+    global settings
+    settings = Settings(jsonContent)
+    global api
+    api = API(apiFile)
+    global texts
+    texts = Texts(textFile,settings.language)
 
 
 def refreshSettings():
