@@ -247,7 +247,8 @@ def getShip(name):
 
 def getShipStats(p,s):
     try:
-        url= str(api.PLAYER_SHIP).format(reg=settings.region,appkey=settings.appkey,accountID=p.id,shipID=s.id)
+        url = api.PLAYER_SHIP
+        url= str(url).format(reg=settings.region,appkey=settings.appkey,accountID=p.id,shipID=s.id)
         response = Parent.GetRequest(url,{})
         content = json.loads(response)
         if(content["status"] == 200):
