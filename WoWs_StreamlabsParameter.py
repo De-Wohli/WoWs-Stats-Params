@@ -99,6 +99,7 @@ def ReloadSettings(jsonContent):
     texts = Texts(textFile,settings.language)
     Parent.Log(ScriptName,"Config Reloaded")
 
+
 def Parse(parseString, userid, username, targetid, targetname, message):
     args = message.split(" ")
     if "$stats" in parseString:
@@ -172,9 +173,11 @@ def Parse(parseString, userid, username, targetid, targetname, message):
             return parseString.replace("$aStats","Invalid Parameters")
     return parseString
 
+
 def OpenAPIPage():
     os.system("start https://developers.wargaming.net/applications/")
     return
+
 
 def getPlayer(playerName):
     try:
@@ -198,14 +201,17 @@ def getPlayer(playerName):
         Parent.Log(ScriptName,"EXCEPTION GetPlayer(): "+str(e))
         return Player()
 
+
 def getPlayerLink(player):
     link = str.format("{}{}-{}",str(api.PLAYER_LINK).format(reg=settings.region),player.id,player.name)
     return link
+
 
 def db_connect(db_path=shipsDb):
     con = sqlite3.connect(db_path)
     con.text_factory = str
     return con
+
 
 def getPlayerStats(player):
     try:
@@ -231,6 +237,7 @@ def getPlayerStats(player):
         Parent.Log(ScriptName,"Error getPlayerStats(player): " + str(e))
         return Stats()
 
+
 def getShip(name):
     try:
         con = db_connect()
@@ -244,6 +251,7 @@ def getShip(name):
     except Exception, e:
         Parent.Log(ScriptName,"Error getShip: " + str(e))
         return Ship()
+
 
 def getShipStats(p,s):
     try:
@@ -267,3 +275,4 @@ def getShipStats(p,s):
     except Exception, e:
         Parent.Log(ScriptName,"Error getShipStats: " + str(e))
         return Stats()
+
