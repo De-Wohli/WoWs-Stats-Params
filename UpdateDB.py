@@ -18,11 +18,11 @@ shipTpe = ["AirCarrier","Battleship","Cruiser","Destroyer"]
 #   Vars
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), './Data/ships_db.sqlite3')
 path = os.path.dirname(__file__)
-configFile = "config.json"
+apikey=""
 
 #   Functions
 def GetShipsByType(n,s):
-    response = requests.get("https://api.worldofwarships.eu/wows/encyclopedia/ships/?application_id={id}&type={type}&fields=ship_id%2C+name&language=de&nation={nation}".format(type=s,nation=n,id=settings["appkey"]))
+    response = requests.get("https://api.worldofwarships.eu/wows/encyclopedia/ships/?application_id={id}&type={type}&fields=ship_id%2C+name&language=de&nation={nation}".format(type=s,nation=n,id= apikey))
     if(response.status_code == 200):
         jArray = json.loads(response.content)
         for x in jArray["data"].items():
@@ -34,10 +34,12 @@ def GetShipsByType(n,s):
     sys.stdout.write("\n")
     sys.stdout.flush()
 
+
 def db_connect(db_path=DEFAULT_PATH):  
     con = sqlite3.connect(db_path)
     con.text_factory = str
     return con
+
 
 def CreateDatabase():
     if os.path.isfile(DEFAULT_PATH):
@@ -47,6 +49,7 @@ def CreateDatabase():
     c.execute('CREATE TABLE Ships (id INTEGER, name TEXT);')
     con.commit()
     con.close()
+
 
 def AddShip(newShip):
     try:
@@ -58,13 +61,8 @@ def AddShip(newShip):
     except Exception, e:
         print(e)
 
-#   Main
-try:
-        with codecs.open(os.path.join(path, configFile), encoding='utf-8-sig', mode='r') as file:
-            settings = json.load(file)
-except:
-    print("Could not find config file")
 
+#   Main
 CreateDatabase()
 for n in nation:
     for s in shipTpe:

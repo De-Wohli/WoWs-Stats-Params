@@ -98,13 +98,17 @@ def Init():
         Parent.Log(ScriptName,"Fatal, init failed: "+str(e))
 
 def ReloadSettings(jsonContent):
-    global settings
-    settings.reload(jsonContent)
-    global api
-    api = API(apiFile)
-    global texts
-    texts = Texts(textFile,settings.language)
-    Parent.Log(ScriptName,"Config Reloaded")
+    try:
+        global settings
+        settings.reload(jsonContent)
+        global api
+        api = API(apiFile)
+        global texts
+        texts = Texts(textFile,settings.language)
+        Parent.Log(ScriptName,"Config Reloaded")
+    except Exception,e:
+        Parent.Log(ScriptName,"Fatal, reload failed: "+str(e))
+
 
 
 def Parse(parseString, userid, username, targetid, targetname, message):
@@ -215,9 +219,12 @@ def getPlayerLink(player):
 
 
 def db_connect(db_path=shipsDb):
-    con = sqlite3.connect(db_path)
-    con.text_factory = str
-    return con
+    try:
+        con = sqlite3.connect(db_path)
+        con.text_factory = str
+        return con
+    except Exception,e:
+        Parent.Log(ScriptName,"db_connect failed: "+str(e))
 
 
 def getPlayerStats(player):
