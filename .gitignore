@@ -2,3 +2,6 @@
 wgapi.txt
 *.zip
 UpdateDB.py
+tests.txt
+Data/settings.js
+Data/settings.json

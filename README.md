@@ -35,5 +35,5 @@
 
 If you'd like to add a translation, please contact me on the discord server https://discord.gg/feMnm5B to recieve instructions for translation works.
 
-# Kontakt
+# Contact
 For requests, support and ideas please visit https://discord.gg/feMnm5B

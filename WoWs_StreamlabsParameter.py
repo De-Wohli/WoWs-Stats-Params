@@ -30,7 +30,7 @@ apiFile = os.path.join(dataFolder, "api.json")
 textFile = os.path.join(dataFolder, "texts.json")
 shipsDb= os.path.join(dataFolder,"ships_db.sqlite3")
 regions = ["eu","ru","na","asia"]
-langs = ["de","en"]
+langs = ["de","en","pl"]
 
 class Settings(object):
     def __init__(self, settingsfile=None):

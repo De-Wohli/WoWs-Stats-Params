@@ -34,7 +34,7 @@
     "language": {
         "type": "dropdown",
         "value": "de",
-        "items": ["de","en"],
+        "items": ["de","en","pl"],
         "label": "Answer Language",
         "tooltip": "Language of the Reply",
         "group": "General"
