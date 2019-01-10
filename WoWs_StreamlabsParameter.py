@@ -17,11 +17,11 @@ from model import Ship, Player, Stats
 # ---------------------------
 #   [Required] Script Information
 # ---------------------------
-ScriptName = "WoWs Stats Para"
+ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "1.0.6"
+Version = "2.0.0"
 
 
 dataFolder = os.path.join(os.path.dirname(__file__), "data/")
