@@ -38,12 +38,13 @@ class Settings(object):
         try:
             with codecs.open(settingsfile, encoding="utf-8-sig", mode="r") as f:
                 self.__dict__ = json.load(f, encoding="utf-8-sig")
-        except:
+        except Exception,e:
                 self.streamer = "Fuyu_Kitsune"
                 self.defaultShip = "Roma"
                 self.language = "de"
                 self.region = "eu"
                 self.appkey = ""
+                Parent.Log(ScriptName,"Settings: "+str(e))
     
     def reload(self, jsondata):
         """ Reload settings from AnkhBot user interface by given json data. """
@@ -55,18 +56,20 @@ class API(object):
         try:
             with codecs.open(apifile, encoding="utf-8-sig", mode="r") as f:
                 self.__dict__ = json.load(f, encoding="utf-8-sig")
-        except:
+        except Exception,e:
                 self.PLAYER_SEARCH = "https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}",
                 self.PLAYER_STATS = "https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
                 self.PLAYER_SHIP = "https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
                 self.PLAYER_LINK = "https://worldofwarships.{reg}/community/accounts/"
+                Parent.Log(ScriptName,"APIs: "+str(e))
+
 
 class Texts(object):
     def __init__(self,textfile=None,language="en"):
         try:
             with codecs.open(textfile, encoding="utf-8-sig", mode="r") as f:
                 tmp = json.load(f, encoding="utf-8-sig")
-        except:
+        except Exception,e:
             tmp =   {
                 "en":
                 {
@@ -79,16 +82,20 @@ class Texts(object):
                     "unknown_stats": "No statistics available"
                 }
             }
+            Parent.Log(ScriptName,"Texts: "+str(e))
         self.__dict__ = tmp[language]
 
 
 def Init():
-    global settings
-    settings = Settings(settingsFile)
-    global api
-    api = API(apiFile)
-    global texts
-    texts = Texts(textFile,settings.language)
+    try:
+        global settings
+        settings = Settings(settingsFile)
+        global api
+        api = API(apiFile)
+        global texts
+        texts = Texts(textFile,settings.language)
+    except Exception,e:
+        Parent.Log(ScriptName,"Fatal, init failed: "+str(e))
 
 def ReloadSettings(jsonContent):
     global settings

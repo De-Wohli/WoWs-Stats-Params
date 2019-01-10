@@ -21,7 +21,7 @@
       "help": "Pokaż statystyki: !stats [Nick gracza] [Okręt] - Np.: !stats {player} {ship} - Podpowiedź: Nazwa okrętu jest opcjonalna",
       "stats_player": "Statystyki gracza {player} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
       "stats_ships": "Statystyki gracza {player} dla okrętu {ship} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
-      "hidden_player": "Dieser Spieler weigert sich an der Statshaming-Kultur teilzuhaben",
+      "hidden_player": "Gracz odmówił ujawniania stoich statystyk",
       "unknown_player": "Nieprawidłowa nazwa gracza",
       "unknown_ship": "Nieprawidłowa nazwa okrętu",
       "unknown_stats": "Statystyki niedostępne"
