@@ -1,6 +1,7 @@
 ﻿{
-    "output_file": "config.json",
+    "output_file": "data/settings.json",
 
+    
     "appkey": {
         "type": "textbox",
         "value": "",
@@ -33,7 +34,7 @@
     "language": {
         "type": "dropdown",
         "value": "de",
-        "items": ["de","en"],
+        "items": ["de","en","pl"],
         "label": "Answer Language",
         "tooltip": "Language of the Reply",
         "group": "General"

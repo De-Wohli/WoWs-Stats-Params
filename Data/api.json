@@ -1,0 +1,6 @@
+{
+    "PLAYER_SEARCH":"https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}&search={playerName}",
+    "PLAYER_STATS":"https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&account_id={accountID}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins",
+    "PLAYER_SHIP":"https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&account_id={accountID}&ship_id={shipID}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins",
+    "PLAYER_LINK":"https://worldofwarships.{reg}/community/accounts/"
+}
