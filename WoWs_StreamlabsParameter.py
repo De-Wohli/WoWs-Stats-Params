@@ -28,9 +28,19 @@ dataFolder = os.path.join(os.path.dirname(__file__), "data/")
 settingsFile = os.path.join(dataFolder, "settings.json")
 apiFile = os.path.join(dataFolder, "api.json")
 textFile = os.path.join(dataFolder, "texts.json")
+asnFile = os.path.join(dataFolder,"asn.json")
 shipsDb= os.path.join(dataFolder,"ships_db.sqlite3")
 regions = ["eu","ru","na","asia"]
 langs = ["de","en","pl"]
+asn={}
+
+
+try:
+    with codecs.open(asnFile, encoding="utf-8-sig", mode="r") as f:
+        asn = json.load(f, encoding="utf-8-sig")
+except:
+    pass
+
 
 class Settings(object):
     def __init__(self, settingsfile=None):
@@ -97,6 +107,7 @@ def Init():
     except Exception,e:
         Parent.Log(ScriptName,"Fatal, init failed: "+str(e))
 
+
 def ReloadSettings(jsonContent):
     try:
         global settings
@@ -108,7 +119,6 @@ def ReloadSettings(jsonContent):
         Parent.Log(ScriptName,"Config Reloaded")
     except Exception,e:
         Parent.Log(ScriptName,"Fatal, reload failed: "+str(e))
-
 
 
 def Parse(parseString, userid, username, targetid, targetname, message):
@@ -142,7 +152,7 @@ def Parse(parseString, userid, username, targetid, targetname, message):
                 retStr = str(texts.unknown_player)
                 return parseString.replace("$stats",retStr)
             else:
-                ship = getShip("_".join(args[1:]))
+                ship = getShip(" ".join(args[1:]))
                 stats = getShipStats(player,ship)
                 if stats.hidden:
                     retStr = str(texts.hidden_player)
@@ -256,7 +266,11 @@ def getShip(name):
     try:
         con = db_connect()
         cursor = con.cursor()
-        cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
+        Parent.Log("bal",name.lower())
+        if asn.get(name.lower(),None) != None:
+            cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
+        else:
+            cursor.execute('SELECT id,Name FROM ships WHERE name = ?',(name,))
         rows = cursor.fetchone()
         if rows is None:
             return Ship()
