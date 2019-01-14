@@ -266,11 +266,10 @@ def getShip(name):
     try:
         con = db_connect()
         cursor = con.cursor()
-        Parent.Log("bal",name.lower())
         if asn.get(name.lower(),None) != None:
             cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
         else:
-            cursor.execute('SELECT id,Name FROM ships WHERE name = ?',(name,))
+            cursor.execute('SELECT id,Name FROM ships WHERE name = ? COLLATE NOCASE',(name,))
         rows = cursor.fetchone()
         if rows is None:
             return Ship()
