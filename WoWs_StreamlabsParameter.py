@@ -21,7 +21,7 @@ ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "2.1.0"
+Version = "2.1.1"
 
 
 dataFolder = os.path.join(os.path.dirname(__file__), "data/")
@@ -217,7 +217,8 @@ def getPlayer(playerName):
                 pid = content["data"][0]["account_id"]
                 newPlayer = Player(name = nick, id = pid)
                 return newPlayer
-
+        else:
+            Parent.Log(ScriptName,content["message"])
     except Exception, e:
         Parent.Log(ScriptName,"EXCEPTION GetPlayer(): "+str(e))
         return Player()
@@ -257,6 +258,8 @@ def getPlayerStats(player):
             else:
                 return Stats()
             return st
+        else:
+            Parent.Log(ScriptName,content["message"])
     except Exception, e:
         Parent.Log(ScriptName,"Error getPlayerStats(player): " + str(e))
         return Stats()
@@ -299,6 +302,8 @@ def getShipStats(p,s):
             else:
                 return Stats()
             return st
+        else:
+            Parent.Log(ScriptName,content["message"])
     except Exception, e:
         Parent.Log(ScriptName,"Error getShipStats: " + str(e))
         return Stats()
