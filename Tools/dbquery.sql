@@ -1,0 +1,1 @@
+SELECT * FROM Ships WHERE name LIKE "%Kawachi%"
