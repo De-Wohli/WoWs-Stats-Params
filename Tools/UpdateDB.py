@@ -105,3 +105,4 @@ for s in ships:
     print(u"Adding {} to Database".format(s.name))
     AddShip(s)
 sys.exit(0)
+
