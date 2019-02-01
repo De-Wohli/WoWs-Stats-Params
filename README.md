@@ -29,7 +29,7 @@
 - General `!command [player]` to show player stats.
 - General: `!command [player] [ship]` to show players stats for specified ship.
 
-### Supported Lanugages
+### Supported Languages
 - German
 - English
 
