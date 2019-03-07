@@ -21,7 +21,7 @@ ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "2.1.1"
+Version = "2.1.2"
 
 
 dataFolder = os.path.join(os.path.dirname(__file__), "data/")
@@ -31,7 +31,7 @@ textFile = os.path.join(dataFolder, "texts.json")
 asnFile = os.path.join(dataFolder,"asn.json")
 shipsDb= os.path.join(dataFolder,"ships_db.sqlite3")
 regions = ["eu","ru","na","asia"]
-langs = ["de","en","pl"]
+langs = ["de","en","pl","fr"]
 asn={}
 
 

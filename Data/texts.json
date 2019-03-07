@@ -1,29 +1,38 @@
 {
-    "en": {
-      "help": "Show Statistics: !stats [Username] [Ship] - i.e.: !stats {player} {ship} - Hint: Shipname is optional",
-      "stats_player": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-      "stats_ships": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
-      "hidden_player": "This players refuses to share his stats",
-      "unknown_player": "Player unknown",
-      "unknown_ship": "Ship unknown",
-      "unknown_stats": "No statistics available"
+  "en": {
+    "help": "Show Statistics: !stats [Username] [Ship] - i.e.: !stats {player} {ship} - Hint: Shipname is optional",
+    "stats_player": "Statistics of {player} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+    "stats_ships": "Statistics of {player} for {ship} --- Battles: {battles} || Average Damage: {avgDmg} || Winrate: {winrate}% --- Statuspage: {wgUrl}",
+    "hidden_player": "This players refuses to share his stats",
+    "unknown_player": "Player unknown",
+    "unknown_ship": "Ship unknown",
+    "unknown_stats": "No statistics available"
     },
-    "de": {
-      "help": "Stats anzeigen: !stats [Spielername] [Schiffsname] - z.B.: !stats {player} {ship} - Hinweis: Schiffsname ist optional",
-      "stats_player": "Statistik von {player} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
-      "stats_ships": "Statistik von {player} für {ship} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
-      "hidden_player": "Dieser Spieler möchte seine Stats nicht teilen",
-      "unknown_player": "Spieler unbekannt",
-      "unknown_ship": "Schiff unbekannt",
-      "unknown_stats": "Keine Statistiken bekannt"
+  "de": {
+    "help": "Stats anzeigen: !stats [Spielername] [Schiffsname] - z.B.: !stats {player} {ship} - Hinweis: Schiffsname ist optional",
+    "stats_player": "Statistik von {player} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
+    "stats_ships": "Statistik von {player} für {ship} --- Gefechte: {battles} || Durchschn. Schaden: {avgDmg} || Winrate: {winrate}% --- Spielerseite: {wgUrl}",
+    "hidden_player": "Dieser Spieler möchte seine Stats nicht teilen",
+    "unknown_player": "Spieler unbekannt",
+    "unknown_ship": "Schiff unbekannt",
+    "unknown_stats": "Keine Statistiken bekannt"
     },
-    "pl": {
-      "help": "Pokaż statystyki: !stats [Nick gracza] [Okręt] - Np.: !stats {player} {ship} - Podpowiedź: Nazwa okrętu jest opcjonalna",
-      "stats_player": "Statystyki gracza {player} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
-      "stats_ships": "Statystyki gracza {player} dla okrętu {ship} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
-      "hidden_player": "Gracz odmówił ujawniania stoich statystyk",
-      "unknown_player": "Nieprawidłowa nazwa gracza",
-      "unknown_ship": "Nieprawidłowa nazwa okrętu",
-      "unknown_stats": "Statystyki niedostępne"
+  "pl": {
+    "help": "Pokaż statystyki: !stats [Nick gracza] [Okręt] - Np.: !stats {player} {ship} - Podpowiedź: Nazwa okrętu jest opcjonalna",
+    "stats_player": "Statystyki gracza {player} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
+    "stats_ships": "Statystyki gracza {player} dla okrętu {ship} --- Bitew: {battles}  Średnie obrażenia: {avgDmg}  Winrate: {winrate}% --- Źródło: {wgUrl}",
+    "hidden_player": "Gracz odmówił ujawniania stoich statystyk",
+    "unknown_player": "Nieprawidłowa nazwa gracza",
+    "unknown_ship": "Nieprawidłowa nazwa okrętu",
+    "unknown_stats": "Statystyki niedostępne"
+    },
+  "fr": {
+    "help": "Afficher les statistiques: !stats [PseudoDuJoueur] [Navire] - p.e. : !stats {player} {ship} - Astuce: Le nom du navire est optionnel",
+    "stats_player": "Statistiques du {player} - - - Batailles: {battles} | | Dégâts moyens: {avgDmg} | | Taux de victoire: {winrate}% - - - Page de statut: {wgUrl}",
+    "stats_ships": "Statistiques du {player} pour {ship} - - - Batailles: {battles} | | Dégâts moyens: {avgDmg} | | Taux de victoire: {winrate}% - - - Page de statut: {wgUrl}",
+    "hidden_player": "Ce joueur refuse de partager ses statistiques",
+    "unknown_player": "Joueur inexistant",
+    "unknown_ship" : "Navire inexistant",
+    "unknown_stats" : "Aucunes statistiques disponibles"
     }
 }
