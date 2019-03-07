@@ -31,7 +31,7 @@ textFile = os.path.join(dataFolder, "texts.json")
 asnFile = os.path.join(dataFolder,"asn.json")
 shipsDb= os.path.join(dataFolder,"ships_db.sqlite3")
 regions = ["eu","ru","na","asia"]
-langs = ["de","en","pl"]
+langs = ["de","en","pl","fr"]
 asn={}
 
 
