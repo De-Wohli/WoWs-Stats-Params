@@ -32,6 +32,8 @@
 ### Supported Lanugages
 - German
 - English
+- Polish
+- French
 
 If you'd like to add a translation, please contact me on the discord server https://discord.gg/feMnm5B to recieve instructions for translation works.
 
