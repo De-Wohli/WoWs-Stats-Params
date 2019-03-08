@@ -1,5 +1,8 @@
 # Setup
-- Download the Zip and import it into Streamlabs Chatbot from the Scripts tab.
+- Download the Zip and import it into Streamlabs Chatbot from the scripts tab.
+
+### Update
+- Extract the Update.zip into the WoWs-Stats folder inside your Streamlabs Chatbot scripts folder.
 
 ### API IDs
 - Visit the wargaming website https://developers.wargaming.net/applications/ and register an application to recieve Application ID.
@@ -34,6 +37,7 @@
 - English
 - Polish
 - French
+- Turkish
 
 If you'd like to add a translation, please contact me on the discord server https://discord.gg/feMnm5B to recieve instructions for translation works.
 

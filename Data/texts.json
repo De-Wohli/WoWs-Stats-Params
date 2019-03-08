@@ -34,5 +34,14 @@
     "unknown_player": "Joueur inexistant",
     "unknown_ship" : "Navire inexistant",
     "unknown_stats" : "Aucunes statistiques disponibles"
+    },
+    "tr":{
+      "help": "İstatistikleri göster: !stats [Kullanici İsmi] [Gemi] -Örnek: !stats {player} {ship} - İpucu: Gemi ismi tercihe bagli",
+      "stats_player":"{player} oyuncusunun istatistikleri --- Maçlar: {battles}  Ortalama Hasar: {avgDmg}  Galibiyet Oranı: {winrate}% --- İstatistik Sayfasi: {wgUrl}",
+      "stats_ships": "{ship} için {player} oyuncusunun istatistikleri --- maçlar: {battles}  Ortalama Hasar: {avgDmg}  Winrate: {winrate}% --- İstatistik Sayfasi: {wgUrl}",
+      "hidden_player": "Bu oyuncu istatistiklerini paylaşmiyor.",
+      "unknown_player": "Oyuncu görüntülenemiyor.",
+      "unknown_ship": "Gemi görüntülenemiyor.",
+      "unknown_stats": "Görüntülenebilen bir istatistik mevcut değil."
     }
 }
