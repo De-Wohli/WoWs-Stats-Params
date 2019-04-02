@@ -37,7 +37,7 @@
 - Ranked: `!command [season] [player] [ship]` to show player stats for specified ship and season (integers for normal seasons, `s`+ sprint for sprints (i.e. `s4`))
 
 
-### Supported Lanugages
+### Supported Languages
 - German
 - English
 - Polish
