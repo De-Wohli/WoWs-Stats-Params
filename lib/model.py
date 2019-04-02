@@ -22,8 +22,16 @@ class Stats:
         self.frags = float(frags)
         self.damage = float(damage_dealt)
         self.wins = wins
-        if(self.battles != 0):
-            self.avgFrags = round(self.frags / battles,2) 
-            self.avgDamage = round(self.damage / battles ,2)
-            self.avgWins = round(float(self.wins / battles),4)*100
-
+        
+    @property
+    def avgFrags(self):
+       if self.battles > 0:
+           return round(self.frags / self.battles,2)
+    @property
+    def avgDamage(self):
+        if self.battles > 0:
+            return round(self.damage / self.battles,2)
+    @property
+    def avgWins(self):
+        if self.battles > 0:
+            return round(float(self.wins / self.battles),4) * 100
