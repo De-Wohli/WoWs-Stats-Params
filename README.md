@@ -16,10 +16,12 @@
 
 ### Commands
 - Go to the Commands tab inside Streamlabs Chatbot.
-- Create a new command.
+- Create a new command (`!stats` recommended).
 - Enter `$stats` inside the response textfield. If you want the answers to be whispered use `/w $user $stats`
-- Create another command for administrative commands.
+- Create another command for administrative commands (`!aStats` recommended).
 - Enter `$aStats` inside the response textfield.
+- Create another command for Ranked stats (`!rstats` recommended).
+- Enter `$rstats` inside the response textfield. If you want the answers to be whispered use `/w $user $stats`
 
 # General
 
@@ -31,6 +33,9 @@
 - General: `!command help` to show helptext.
 - General `!command [player]` to show player stats.
 - General: `!command [player] [ship]` to show players stats for specified ship.
+- Ranked: `!command [season] [player]` to show player stats for specified season (integers for normal seasons, `s`+ sprint for sprints (i.e. `s4`))
+- Ranked: `!command [season] [player] [ship]` to show player stats for specified ship and season (integers for normal seasons, `s`+ sprint for sprints (i.e. `s4`))
+
 
 ### Supported Lanugages
 - German
@@ -43,3 +48,5 @@ If you'd like to add a translation, please contact me on the discord server http
 
 # Contact
 For requests, support and ideas please visit https://discord.gg/feMnm5B
+
+If you'd like to support this project, feel free to leave donation via https://paypal.me/Fuyune

@@ -19,7 +19,9 @@ class Ship:
 #   Vars
 DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../Data/ships_db.sqlite3')
 path = os.path.dirname(__file__)
+ships = []
 apikey=""
+
 
 #   Functions
 def GetShipsByType(n,s,lang):
@@ -74,35 +76,36 @@ def cooldown(seconds):
     sys.stdout.write("\n")
     sys.stdout.flush()
 
+def main():
+    tmp = {}
+    toolFolder = os.path.join(os.path.dirname(__file__))
+    dataFile = os.path.join(toolFolder,"UpdateDbData.json")
+    try:
+        with codecs.open(dataFile, encoding="utf-8", mode="r") as f:
+            tmp = json.load(f, encoding="utf-8")
+    except:
+        print("error")
+        sys.exit(1)
 
-#   Main
-tmp = {}
-toolFolder = os.path.join(os.path.dirname(__file__))
-dataFile = os.path.join(toolFolder,"UpdateDbData.json")
-try:
-    with codecs.open(dataFile, encoding="utf-8", mode="r") as f:
-        tmp = json.load(f, encoding="utf-8")
-except:
-    print("error")
-    sys.exit(1)
+    langs = tmp["langs"]
+    nation = tmp["nations"]
+    shipTpe = tmp["types"]
 
-langs = tmp["langs"]
-nation = tmp["nations"]
-shipTpe = tmp["types"]
-ships = []
+    CreateDatabase()
 
+    for l in langs:   
+        print("Getting Ships in Language: "+l)
+        for n in nation:
+            for s in shipTpe:
+                print("Getting {} from {} ".format(s,n))
+                GetShipsByType(n,s,l)
+            cooldown(2)
+        cooldown(3)
+    for s in ships:
+        print(u"Adding {} to Database".format(s.name))
+        AddShip(s)
 
-CreateDatabase()
-for l in langs:   
-    print("Getting Ships in Language: "+l)
-    for n in nation:
-        for s in shipTpe:
-            print("Getting {} from {} ".format(s,n))
-            GetShipsByType(n,s,l)
-        cooldown(2)
-    cooldown(3)
-for s in ships:
-    print(u"Adding {} to Database".format(s.name))
-    AddShip(s)
-sys.exit(0)
+if __name__== "__main__":
+    main()
+
 
