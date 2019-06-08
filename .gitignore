@@ -4,3 +4,7 @@ wgapi.txt
 tests.txt
 Data/settings.js
 Data/settings.json
+/.vs/WoWs-Stats-Params/v16
+/.vs/slnx.sqlite
+/.vs/VSWorkspaceState.json
+/Tools/UpdateDB/env

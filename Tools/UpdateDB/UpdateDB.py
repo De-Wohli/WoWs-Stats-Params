@@ -9,7 +9,7 @@ import time
 
 #   Classes
 class Ship:
-    def __init__(self,id=0l, name=""):
+    def __init__(self,id=0, name=""):
         self.id = id
         self.name = name
     def __eq__(self, other):
@@ -17,10 +17,12 @@ class Ship:
 
 
 #   Vars
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../Data/ships_db.sqlite3')
+DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../../Data/ships_db.sqlite3')
 path = os.path.dirname(__file__)
 ships = []
-apikey=""
+apikey = ""
+with codecs.open(os.path.join(os.path.dirname(__file__),'../../wgapi.txt'), encoding="utf-8", mode="r") as f:
+          apikey = f.readline()
 
 
 #   Functions
@@ -60,11 +62,11 @@ def AddShip(newShip):
         try:
             cursor.execute('INSERT INTO Ships VALUES (?,?);',(newShip.id,newShip.name))
             con.commit()
-        except Exception, e:
+        except Exception as e:
             print("Error: "+str(e))
             pass
         con.close()
-    except Exception, e:
+    except Exception as e:
         print(e)
 
 
