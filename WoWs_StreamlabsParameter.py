@@ -335,7 +335,7 @@ def getShip(name):
         if asn.get(name.lower(),None) != None:
             cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
         else:
-            cursor.execute('SELECT id,Name FROM ships WHERE name = ? COLLATE NOCASE',(name,))
+            cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
         rows = cursor.fetchone()
         if rows is None:
             return Ship()
@@ -346,8 +346,9 @@ def getShip(name):
         return Ship()
 
 def filterShipName(shipname):
-    charlist = ['a','o','u','A','O','U','l','L','e','E','z','Z']
-    return ''.join([i if ord(i) < 128 and i not in charlist else '%' for i in shipname])
+    charlist = ['a','o','u','A','O','U','l','L','e','E','z','Z','s','S']
+    retval = ''.join([i if ord(i) < 128 and i not in charlist else '%' for i in shipname])
+    return retval
 
 
 def getShipStats(p,s):
