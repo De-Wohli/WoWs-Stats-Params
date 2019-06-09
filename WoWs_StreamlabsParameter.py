@@ -22,7 +22,7 @@ ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "2.1.5"
+Version = "2.1.6"
 
 # ---------------------------
 #  Global Vars
@@ -331,6 +331,7 @@ def getShip(name):
     try:
         con = db_connect()
         cursor = con.cursor()
+        name = filterShipName(name)
         if asn.get(name.lower(),None) != None:
             cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
         else:
@@ -343,6 +344,10 @@ def getShip(name):
     except Exception, e:
         Parent.Log(ScriptName,"Error getShip: " + str(e))
         return Ship()
+
+def filterShipName(shipname):
+    charlist = ['a','o','u','A','O','U','l','L','e','E','z','Z']
+    return ''.join([i if ord(i) < 128 and i not in charlist else '%' for i in shipname])
 
 
 def getShipStats(p,s):

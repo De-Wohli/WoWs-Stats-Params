@@ -8,3 +8,4 @@ Data/settings.json
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 /Tools/UpdateDB/env
+.vs
