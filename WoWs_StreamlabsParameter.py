@@ -331,14 +331,19 @@ def getShip(name):
     try:
         con = db_connect()
         cursor = con.cursor()
-        name = filterShipName(name)
         if asn.get(name.lower(),None) != None:
             cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
         else:
             cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
         rows = cursor.fetchone()
         if rows is None:
-            return Ship()
+            name = filterShipName(name)
+            cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
+            rows = cursor.fetchone()
+            if rows is None:
+                return Ship()
+            else:
+                return Ship(id=rows[0],name=rows[1])
         else:
             return Ship(id=rows[0],name=rows[1])
     except Exception, e:
@@ -347,7 +352,7 @@ def getShip(name):
 
 def filterShipName(shipname):
     charlist = ['a','o','u','A','O','U','l','L','e','E','z','Z','s','S']
-    retval = ''.join([i if ord(i) < 128 and i not in charlist else '%' for i in shipname])
+    retval = ''.join([i if ord(i) < 128 and i not in charlist else '_' for i in shipname])
     return retval
 
 
