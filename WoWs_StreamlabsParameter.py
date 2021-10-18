@@ -22,7 +22,7 @@ ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "2.1.7"
+Version = "2.2.0"
 
 # ---------------------------
 #  Global Vars

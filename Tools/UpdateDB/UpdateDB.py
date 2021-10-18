@@ -1,11 +1,13 @@
 # -*- encoding: utf-8 -*-
 import json
+from posixpath import pardir
 import sys
 import requests
 import os
 import sqlite3
 import codecs
 import time
+from pathlib import Path
 
 #   Classes
 class Ship:
@@ -17,13 +19,18 @@ class Ship:
 
 
 #   Vars
-DEFAULT_PATH = os.path.join(os.path.dirname(__file__), '../../Data/ships_db.sqlite3')
-path = os.path.dirname(__file__)
+UPDATEDB_PATH = Path(os.path.dirname(__file__))
+TOOLS_PATH = UPDATEDB_PATH.parent.absolute()
+BASE_PATH = TOOLS_PATH.parent.absolute()
+DATA_PATH = os.path.join(str(BASE_PATH), 'Data')
+DB_PATH = os.path.join(str(DATA_PATH), 'ships_db.sqlite3')
+settingsFile = os.path.join(str(DATA_PATH), "settings.json")
 ships = []
 apikey = ""
-with codecs.open(os.path.join(os.path.dirname(__file__),'../../wgapi.txt'), encoding="utf-8", mode="r") as f:
-          apikey = f.readline()
-
+with open(settingsFile) as f:
+    data = f.read()
+    data = json.loads(data)
+    apikey = data["appkey"]
 
 #   Functions
 def GetShipsByType(n,s,lang):
@@ -39,15 +46,15 @@ def GetShipsByType(n,s,lang):
     sys.stdout.flush()
 
 
-def db_connect(db_path=DEFAULT_PATH):  
+def db_connect(db_path=DB_PATH):  
     con = sqlite3.connect(db_path)
     con.text_factory = str
     return con
 
 
 def CreateDatabase():
-    if os.path.isfile(DEFAULT_PATH):
-        os.remove(DEFAULT_PATH)
+    if os.path.isfile(DB_PATH):
+        os.remove(DB_PATH)
     con=db_connect()
     c = con.cursor()
     c.execute('CREATE TABLE Ships (id INTEGER, name TEXT UNIQUE);')
@@ -83,8 +90,8 @@ def main():
     toolFolder = os.path.join(os.path.dirname(__file__))
     dataFile = os.path.join(toolFolder,"UpdateDbData.json")
     try:
-        with codecs.open(dataFile, encoding="utf-8", mode="r") as f:
-            tmp = json.load(f, encoding="utf-8")
+        with open(dataFile,mode="r") as f:
+            tmp = json.load(f)
     except:
         print("error")
         sys.exit(1)
