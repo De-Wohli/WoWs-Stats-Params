@@ -1,5 +1,5 @@
 {
-    "nations":["ussr","japan","germany","france","usa","pan_asia","pan_america","italy","uk","commonwealth","poland"],
+    "nations":["ussr","japan","germany","france","usa","pan_asia","pan_america","italy","uk","commonwealth","poland","netherlands"],
     "langs":["de","en","pl","fr"],
     "types":["AirCarrier","Battleship","Cruiser","Destroyer"]
 }
