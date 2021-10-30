@@ -108,8 +108,9 @@ def main():
             for s in shipTpe:
                 print("Getting {} from {} ".format(s,n))
                 GetShipsByType(n,s,l)
-            cooldown(2)
-        cooldown(3)
+                time.sleep(0.5)
+            cooldown(5)
+        cooldown(10)
     for s in ships:
         print(u"Adding {} to Database".format(s.name))
         AddShip(s)
