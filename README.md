@@ -4,6 +4,12 @@
 ### Update
 - Extract the Update.zip into the WoWs-Stats folder inside your Streamlabs Chatbot scripts folder.
 
+### Selfupdate
+- Place the Tools folder inside the WoWs-Stats-Params folder, maintain same structure as shown in the repository.
+- Install requests via `pip install requests`
+- Adjust the updateDbData.json file as necessary, should be selfexplenatory.
+- run the updateDB.py file using Python 3.X
+
 ### API IDs
 - Visit the wargaming website https://developers.wargaming.net/applications/ and register an application to recieve Application ID.
 - Copy the Application ID from the website and paste it into the config in Streamlabs Chatbot.
