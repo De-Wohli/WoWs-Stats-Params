@@ -22,7 +22,7 @@ ScriptName = "WoWs Stats"
 Website = "https://github.com/De-Wohli/WoWs-Stats-Params"
 Description = "Shows Stats for player ships"
 Creator = "Fuyu_Kitsune & Sehales"
-Version = "2.2.0"
+Version = "2.1.5"
 
 # ---------------------------
 #  Global Vars
@@ -69,7 +69,7 @@ class API(object):
                 self.PLAYER_SEARCH = "https://api.worldofwarships.{reg}/wows/account/list/?application_id={appkey}",
                 self.PLAYER_STATS = "https://api.worldofwarships.{reg}/wows/account/info/?application_id={appkey}&fields=statistics.pvp.battles%2Cstatistics.pvp.damage_dealt%2C+statistics.pvp.frags%2Cstatistics.pvp.wins"
                 self.PLAYER_SHIP = "https://api.worldofwarships.{reg}/wows/ships/stats/?application_id={appkey}&fields=pvp.battles%2C+pvp.damage_dealt%2C+pvp.frags%2C+pvp.wins"
-                self.PLAYER_LINK = "https://worldofwarships.{reg}/community/accounts/"
+                self.PLAYER_LINK = "https://profile.worldofwarships.{reg}/statistics/"
                 Parent.Log(ScriptName,"APIs: "+str(e))
 
 
@@ -287,7 +287,7 @@ def getPlayer(playerName):
 
 
 def getPlayerLink(player):
-    link = str.format("{}{}-{}",str(api.PLAYER_LINK).format(reg=settings.region),player.id,player.name)
+    link = str.format("{}{}",str(api.PLAYER_LINK).format(reg=settings.region),player.id)
     return link
 
 
@@ -334,26 +334,15 @@ def getShip(name):
         if asn.get(name.lower(),None) != None:
             cursor.execute('SELECT id,Name FROM ships WHERE id LIKE ?',(asn[name.lower()],))
         else:
-            cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
+            cursor.execute('SELECT id,Name FROM ships WHERE name = ? COLLATE NOCASE',(name,))
         rows = cursor.fetchone()
         if rows is None:
-            name = filterShipName(name)
-            cursor.execute('SELECT id,Name FROM ships WHERE name LIKE ?',(name,))
-            rows = cursor.fetchone()
-            if rows is None:
-                return Ship()
-            else:
-                return Ship(id=rows[0],name=rows[1])
+            return Ship()
         else:
             return Ship(id=rows[0],name=rows[1])
     except Exception, e:
         Parent.Log(ScriptName,"Error getShip: " + str(e))
         return Ship()
-
-def filterShipName(shipname):
-    charlist = ['a','o','u','A','O','U','l','L','e','E','z','Z','s','S']
-    retval = ''.join([i if ord(i) < 128 and i not in charlist else '_' for i in shipname])
-    return retval
 
 
 def getShipStats(p,s):
